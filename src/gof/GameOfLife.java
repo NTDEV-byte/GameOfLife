@@ -6,20 +6,42 @@ import java.awt.*;
 public class GameOfLife extends JPanel {
 
         // grid related
+        private int width = 80;
+        private int height = 60;
+        private int blockSize = 4;
+        private int grid[] = new int[width * height];
 
         // screen related
+        private int screenWidth = width * blockSize;
+        private int screenHeight = height * blockSize;
 
         // simulation
-
+        private boolean running;
+        private Thread thread;
 
         public GameOfLife() {
+                this.init();
         }
 
-        private void init(){}
+        private void init(){
+                this.setPreferredSize(new Dimension(screenWidth , screenHeight));
+                this.setUpGameLoop();
+        }
 
-        private void gameLoop(){}
+        private void setUpGameLoop(){
+                thread = new Thread(() -> {
+                        while(running){
+                                update();
+                                fpsLimiter(60);
+                                repaint();
+                        }
+                } , "Game-Of-Life-Thread");
 
-        private void fpsLimiter(int maxFPS){}
+        }
+
+        private void fpsLimiter(int maxFPS){
+                Thread.sleep(1000 / maxFPS);
+        }
 
         private void update(){}
 
