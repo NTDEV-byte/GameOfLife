@@ -19,6 +19,17 @@ public class GameOfLife extends JPanel {
         private boolean running;
         private Thread thread;
 
+
+        public static void main(String args[]){
+                JFrame window = new JFrame("GameOfLife");
+                window.setVisible(true);
+                window.setResizable(false);
+                window.setLocationRelativeTo(null);
+                window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                window.add(new GameOfLife());
+                window.pack();
+        }
+
         public GameOfLife() {
                 this.init();
         }
