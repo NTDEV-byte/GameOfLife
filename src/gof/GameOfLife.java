@@ -7,17 +7,20 @@ public class GameOfLife extends JPanel {
 
         // grid related
         private int width = 80;
-        private int height = 60;
-        private int blockSize = 4;
+        private int height = width * 9 / 16;
+        private int blockSize = 8;
         private int grid[] = new int[width * height];
 
         // screen related
         private int screenWidth = width * blockSize;
         private int screenHeight = height * blockSize;
 
-        // simulation
+        // thread
         private boolean running;
         private Thread thread;
+
+        // simulation
+        private Color gridColor = new Color(0x801D80);
 
 
         public static void main(String args[]){
@@ -75,7 +78,18 @@ public class GameOfLife extends JPanel {
         }
 
         private void render(Graphics g){
-                clearScreen(g);
+                this.clearScreen(g);
+                this.drawGrid(g);
+        }
+
+        private void drawGrid(Graphics g){
+                g.setColor(gridColor);
+                for(int y = 0; y < height ; y++){
+                        for(int x = 0; x < width; x++){
+                                g.drawLine(x * blockSize , 0 , x * blockSize , screenHeight);
+                        }
+                        g.drawLine(0 , y * blockSize , screenWidth , y * blockSize);
+                }
         }
 
         private void clearScreen(Graphics g){
