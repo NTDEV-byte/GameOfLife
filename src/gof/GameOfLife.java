@@ -23,6 +23,15 @@ public class GameOfLife extends JPanel {
                 this.init();
         }
 
+        public void start(){
+                running = true;
+                thread.start();
+        }
+
+        public void stop(){
+                running = false;
+        }
+
         private void init(){
                 this.setPreferredSize(new Dimension(screenWidth , screenHeight));
                 this.setUpGameLoop();
