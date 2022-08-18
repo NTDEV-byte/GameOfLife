@@ -41,16 +41,13 @@ public class GameOfLife extends JPanel {
                 running = true;
                 thread.start();
         }
-
         public void stop(){
                 running = false;
         }
-
         private void init(){
                 this.setPreferredSize(new Dimension(screenWidth , screenHeight));
                 this.setUpGameLoop();
         }
-
         private void setUpGameLoop(){
                 thread = new Thread(() -> {
                         while(running){
@@ -61,7 +58,6 @@ public class GameOfLife extends JPanel {
                 } , "Game-Of-Life-Thread");
 
         }
-
         private void fpsLimiter(int maxFPS){
                 try {
                         Thread.sleep(1000 / maxFPS);
@@ -70,8 +66,20 @@ public class GameOfLife extends JPanel {
                 }
         }
 
+        // logic
         private void update(){}
 
+        public int getGridStateAt(int x,int y){
+
+        }
+        public void setGridStateAt(int x,int y,int state){
+
+        }
+        private boolean withInBounds(int x,int y){
+                return x >= 0 && x < width && y >= 0 && y < height;
+        }
+
+        // drawing
         @Override
         public void paint(Graphics g){
                 render(g);
@@ -96,6 +104,7 @@ public class GameOfLife extends JPanel {
                 g.setColor(Color.black);
                 g.fillRect(0,0,getWidth(),getHeight());
         }
+
 
 }
 
