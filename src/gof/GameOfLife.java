@@ -70,7 +70,10 @@ public class GameOfLife extends JPanel {
         private void update(){}
 
         public int getGridStateAt(int x,int y){
-
+                if(withInBounds(x,y)){
+                      return grid[x + y * width];
+                }
+                return 0;
         }
         public void setGridStateAt(int x,int y,int state){
 
