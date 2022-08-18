@@ -2,6 +2,7 @@ package gof;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Scanner;
 
 public class GameOfLife extends JPanel {
 
@@ -20,7 +21,9 @@ public class GameOfLife extends JPanel {
         private Thread thread;
 
         // simulation
-        private Color gridColor = new Color(0x801D80);
+        private Color gridColor = new Color(0x801D80),
+                      aliveCellColor = new Color(0x34B434),
+                      deadCellColor = new Color(0xFF0045);
 
 
         public static void main(String args[]){
@@ -31,6 +34,7 @@ public class GameOfLife extends JPanel {
                 window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 window.add(new GameOfLife());
                 window.pack();
+
         }
 
         public GameOfLife() {
@@ -89,12 +93,10 @@ public class GameOfLife extends JPanel {
         public void paint(Graphics g){
                 render(g);
         }
-
         private void render(Graphics g){
                 this.clearScreen(g);
                 this.drawGrid(g);
         }
-
         private void drawGrid(Graphics g){
                 g.setColor(gridColor);
                 for(int y = 0; y < height ; y++){
@@ -104,12 +106,24 @@ public class GameOfLife extends JPanel {
                         g.drawLine(0 , y * blockSize , screenWidth , y * blockSize);
                 }
         }
-
         private void clearScreen(Graphics g){
                 g.setColor(Color.black);
                 g.fillRect(0,0,getWidth(),getHeight());
         }
 
+        private void reflectGridState(Graphics g){
+                for(int y = 0; y < height; y++){
+                        for(int x = 0; x < width; x++){
+                               if(getGridStateAt(x , y) == Rules.ALIVE){
+                                       g.setColor(aliveCellColor);
+                               }
+                               else{
+                                       g.setColor(deadCellColor);
+                               }
+                               g.fillRect(x * blockSize , y * blockSize , blockSize, blockSize);
+                        }
+                }
+        }
 
 }
 
