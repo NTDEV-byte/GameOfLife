@@ -95,6 +95,7 @@ public class GameOfLife extends JPanel {
         }
         private void render(Graphics g){
                 this.clearScreen(g);
+                this.reflectGridState(g);
                 this.drawGrid(g);
         }
         private void drawGrid(Graphics g){

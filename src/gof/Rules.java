@@ -20,7 +20,16 @@ public class Rules {
 
         }
         private int neighboursCounter(int x,int y){
-                return -1;
+              int total = 0;
+             for(int i = 0; i < 9; i++){
+                     if(i == 4) continue;
+                     int xi = (i % 3) - 1;
+                     int yi = (i / 3) - 1;
+                     if(gameOfLife.getGridStateAt(x + xi , y + yi) == ALIVE){
+                             total++;
+                     }
+             }
+                return total;
         }
         private void newBorn(){}
         private void dieByIsolation(){}
