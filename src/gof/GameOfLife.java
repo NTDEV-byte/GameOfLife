@@ -40,7 +40,11 @@ public class GameOfLife extends JPanel {
         }
 
         private void fpsLimiter(int maxFPS){
-                Thread.sleep(1000 / maxFPS);
+                try {
+                        Thread.sleep(1000 / maxFPS);
+                } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                }
         }
 
         private void update(){}
