@@ -51,12 +51,17 @@ public class GameOfLife extends JPanel {
 
         @Override
         public void paint(Graphics g){
+                render(g);
         }
 
         private void render(Graphics g){
+                clearScreen(g);
         }
 
-        private void clearScreen(Graphics g){}
+        private void clearScreen(Graphics g){
+                g.setColor(Color.black);
+                g.fillRect(0,0,getWidth(),getHeight());
+        }
 
 }
 
