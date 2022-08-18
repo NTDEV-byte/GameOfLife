@@ -76,7 +76,9 @@ public class GameOfLife extends JPanel {
                 return 0;
         }
         public void setGridStateAt(int x,int y,int state){
-
+                if(withInBounds(x, y)){
+                        grid[x + y * width] = state;
+                }
         }
         private boolean withInBounds(int x,int y){
                 return x >= 0 && x < width && y >= 0 && y < height;
