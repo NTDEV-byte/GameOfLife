@@ -44,6 +44,8 @@ public class Rules {
                 }
         }
         private void dieByOverPopulation(int x,int y){
-
+                if(countAliveNeighbours(x , y) > 3 && gameOfLife.getGridStateAt(x , y) == ALIVE){
+                        gameOfLife.setGridStateAt(x , y , DEAD);
+                }
         }
 }
