@@ -3,12 +3,13 @@ package gof;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 public class GameOfLife extends JPanel {
 
-
-
-        private InputHandler instance = InputHandler.getInstance();
+        private static final InputHandler instance = InputHandler.getInstance();
+        private static final int MAX_FPS = 120;
+        private static final int OneSecond = 1000;
 
         // grid related
 
@@ -26,11 +27,12 @@ public class GameOfLife extends JPanel {
         private Thread thread;
 
         // simulation
-        private Color gridColor = new Color(0x801D80),
+        private Color gridColor      = new Color(0x801D80),
                       aliveCellColor = new Color(0x34B434),
-                      deadCellColor = new Color(0xFF0045);
+                      deadCellColor  = new Color(0xFF0045);
         private Rules rules;
-
+        private boolean paused = true;
+        private double minWait = 200,elapsedTime;
 
         public static void main(String args[]){
                 JFrame window = new JFrame("GameOfLife");
@@ -40,7 +42,6 @@ public class GameOfLife extends JPanel {
                 window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 window.add(new GameOfLife());
                 window.pack();
-
         }
 
         public GameOfLife() {
@@ -67,13 +68,12 @@ public class GameOfLife extends JPanel {
                 setGridStateAt(7,5,Rules.ALIVE);
         }
 
-
         // logic
         private void setUpGameLoop(){
                 thread = new Thread(() -> {
                         while(running){
                                 update();
-                                fpsLimiter(60);
+                                fpsLimiter(MAX_FPS);
                                 repaint();
                         }
                 } , "Game-Of-Life-Thread");
@@ -88,8 +88,45 @@ public class GameOfLife extends JPanel {
         }
 
         private void update(){
-                this.rules.apply();
+                this.simulation();
+                this.mouseInteraction();
                 this.requestFocus();
+        }
+
+        private void simulation(){
+                if(!paused){
+                        this.rules.apply();
+                }
+                this.pauseAndResume();
+        }
+
+        private void pauseAndResume(){
+                if(instance.isKeyDown(KeyEvent.VK_SPACE) && elapsedTime >= minWait){
+                        paused = !paused;
+                        this.elapsedTime = 0;
+                        if(elapsedTime >= 1000 * 120) elapsedTime = 0;
+                        System.out.println("One Press !");
+                }
+                this.minWaiter();
+        }
+
+        private void minWaiter(){
+                elapsedTime += OneSecond / MAX_FPS;
+        }
+        private void mouseInteraction(){
+                makeCellDeadOnRightMouseClick();
+                makeCellAliveOnLeftMouseClick();
+        }
+        private void makeCellAliveOnLeftMouseClick(){
+                if(instance.getMouseB() == MouseEvent.BUTTON1){
+                          setGridStateAt(getMouseXLoc() , getMouseYLoc() , Rules.ALIVE);
+                }
+        }
+
+        private void makeCellDeadOnRightMouseClick(){
+                if(instance.getMouseB() == MouseEvent.BUTTON3){
+                        setGridStateAt(getMouseXLoc() , getMouseYLoc() , Rules.DEAD);
+                }
         }
 
         public int getGridStateAt(int x,int y){
@@ -160,8 +197,6 @@ public class GameOfLife extends JPanel {
         public int getGridHeight(){
                 return height;
         }
-
-
 
 }
 
