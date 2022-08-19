@@ -19,8 +19,8 @@ public class Rules {
         private void applyEvolution(){
 
         }
-        private int neighboursCounter(int x,int y){
-              int total = 0;
+        private int countAliveNeighbours(int x,int y){
+             int total = 0;
              for(int i = 0; i < 9; i++){
                      if(i == 4) continue;
                      int xi = (i % 3) - 1;
@@ -31,7 +31,13 @@ public class Rules {
              }
                 return total;
         }
-        private void newBorn(){}
-        private void dieByIsolation(){}
-        private void dieByOverPopulation(){}
+
+
+        private void newBorn(int x,int y){
+               if(countAliveNeighbours(x , y) == 3 && gameOfLife.getGridStateAt(x , y) == DEAD){
+                        gameOfLife.setGridStateAt(x , y , ALIVE);
+               }
+        }
+        private void dieByIsolation(int x,int y){}
+        private void dieByOverPopulation(int x,int y){}
 }
