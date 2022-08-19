@@ -38,6 +38,12 @@ public class Rules {
                         gameOfLife.setGridStateAt(x , y , ALIVE);
                }
         }
-        private void dieByIsolation(int x,int y){}
-        private void dieByOverPopulation(int x,int y){}
+        private void dieByIsolation(int x,int y){
+                if(countAliveNeighbours(x , y) < 3 && gameOfLife.getGridStateAt(x , y) == ALIVE){
+                        gameOfLife.setGridStateAt(x , y , DEAD);
+                }
+        }
+        private void dieByOverPopulation(int x,int y){
+
+        }
 }
