@@ -11,9 +11,9 @@ public class CustomInjector extends Injector
         }
 
         @Override
-        public void setUp(int xStart, int yStart, GameOfLife instance) {
+        public void setUp(int xStart, int yStart,GameOfLife instance) {
                 if(isConfigurationValid(xStart,yStart,instance)){
-                        inject(xStart,yStart,instance);
+                        this.inject(xStart,yStart,instance);
                 }
                 else{
                         super.errorMessage(instance);
@@ -22,8 +22,8 @@ public class CustomInjector extends Injector
 
         @Override
         protected void inject(int xStart,int yStart,GameOfLife instance) {
-              for(int y = yStart; y < this.height; y++){
-                      for(int x = xStart; x < this.width; x++){
+              for(int y = yStart; y < yStart + this.height; y++){
+                      for(int x = xStart; x <  xStart + this.width; x++){
                                 instance.setGridStateAt(x ,y , Rules.ALIVE);
                       }
               }
@@ -31,10 +31,10 @@ public class CustomInjector extends Injector
 
         @Override
         protected boolean isConfigurationValid(int xStart,int yStart,GameOfLife instance) {
-                return   xStart >= 0 && xStart < width  &&
-                         yStart >= 0 && yStart < height &&
-                         xStart + width < instance.getGridWidth() &&
-                         yStart + height < instance.getGridHeight();
+                return   xStart >= 0 && this.width < instance.getGridWidth()  &&
+                         yStart >= 0 && this.height < instance.getGridHeight() &&
+                         xStart + this.width < instance.getGridWidth() &&
+                         yStart + this.height < instance.getGridHeight();
         }
 
 }
