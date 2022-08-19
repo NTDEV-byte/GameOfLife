@@ -29,6 +29,7 @@ public abstract class Injector implements IConfiguration {
     private void friendlyReminderMessage(){
         System.out.println("If You See nothing after instantiating an injector ");
         System.out.println("Friendly reminder call the setUp method after construction : )");
+        System.out.println("Hit space to start");
     }
 
     protected void errorMessage(GameOfLife context){

@@ -69,10 +69,27 @@ public class GameOfLife extends JPanel {
                 this.setUpGameLoop();
                 this.grid = new int[width * height];
                 this.rules = new Rules(this);
-                this.configuration = new AutoInjector("./abstract.png");
-                this.configuration.setUp(5,5,this);
+                this.injectorSetUpConfig();
         }
 
+
+        private void injectorSetUpConfig(){
+                // auto
+                this.configuration = new AutoInjector("./1-2-3-4.png");
+                this.configuration.setUp(5,5,this);
+
+                this.configuration = new AutoInjector("./1-2-3.png");
+                this.configuration.setUp(35,5,this);
+
+                // custom
+//                this.configuration = new CustomInjector(5,5,new int[]{
+//                        1,1,1,1,1,
+//                        1,1,1,1,1,
+//                        1,1,1,1,1,
+//                        1,1,1,1,1,
+//                });
+//                this.configuration.setUp(5,5,this);
+        }
         // logic
         private void setUpGameLoop(){
                 thread = new Thread(() -> {
