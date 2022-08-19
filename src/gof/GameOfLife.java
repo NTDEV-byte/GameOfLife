@@ -10,7 +10,7 @@ public class GameOfLife extends JPanel {
         private int width = 80;
         private int height = width * 9 / 16;
         private int blockSize = 8;
-        private int grid[] = new int[width * height];
+        private int grid[] = new int[width * height];;
 
         // screen related
         private int screenWidth = width * blockSize;
@@ -24,6 +24,7 @@ public class GameOfLife extends JPanel {
         private Color gridColor = new Color(0x801D80),
                       aliveCellColor = new Color(0x34B434),
                       deadCellColor = new Color(0xFF0045);
+        private Rules rules;
 
 
         public static void main(String args[]){
@@ -39,6 +40,7 @@ public class GameOfLife extends JPanel {
 
         public GameOfLife() {
                 this.init();
+                this.start();
         }
 
         public void start(){
@@ -50,7 +52,12 @@ public class GameOfLife extends JPanel {
         }
         private void init(){
                 this.setPreferredSize(new Dimension(screenWidth , screenHeight));
+
+                this.rules = new Rules(this);
                 this.setUpGameLoop();
+                setGridStateAt(5,5,Rules.ALIVE);
+                setGridStateAt(6,5,Rules.ALIVE);
+                setGridStateAt(7,5,Rules.ALIVE);
         }
         private void setUpGameLoop(){
                 thread = new Thread(() -> {
@@ -71,13 +78,15 @@ public class GameOfLife extends JPanel {
         }
 
         // logic
-        private void update(){}
+        private void update(){
+                rules.apply();
+        }
 
         public int getGridStateAt(int x,int y){
                 if(withInBounds(x,y)){
                       return grid[x + y * width];
                 }
-                return 0;
+                return Rules.DEAD;
         }
         public void setGridStateAt(int x,int y,int state){
                 if(withInBounds(x, y)){
@@ -126,5 +135,12 @@ public class GameOfLife extends JPanel {
                 }
         }
 
+        public int getGridWidth(){
+                return width;
+        }
+
+        public int getGridHeight(){
+                return height;
+        }
 }
 

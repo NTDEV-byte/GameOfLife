@@ -6,19 +6,42 @@ public class Rules {
         public static final int DEAD = 0;
 
         private GameOfLife gameOfLife;
+        private int nextGeneration[];
+
         public Rules(GameOfLife gameOfLife){
             this.gameOfLife = gameOfLife;
+            this.nextGeneration = new int[this.gameOfLife.getGridWidth() * this.gameOfLife.getGridHeight()];
         }
 
         public void receiveGridState(){
-
+            for(int y = 0; y < gameOfLife.getGridHeight(); y++){
+                for(int x = 0; x  < gameOfLife.getGridHeight(); x++){
+                       nextGeneration[x + y * gameOfLife.getGridWidth()] = gameOfLife.getGridStateAt(x , y);
+                }
+            }
         }
         public void transferGridState(){
-
+            for(int y = 0; y < gameOfLife.getGridHeight(); y++){
+                for(int x = 0; x  < gameOfLife.getGridWidth(); x++){
+                     gameOfLife.setGridStateAt(x , y,nextGeneration[x +  y * gameOfLife.getGridWidth()]);
+                }
+            }
         }
-        private void applyEvolution(){
-
+        public void apply(){
+            receiveGridState();
+              for(int y = 0; y < gameOfLife.getGridHeight(); y++){
+                      for(int x = 0; x < gameOfLife.getGridWidth(); x++){
+                          evolutionRules(x , y);
+                      }
+              }
+              transferGridState();
         }
+        private void evolutionRules(int x,int y){
+                newBorn(x , y);
+                dieByIsolation(x , y);
+                dieByOverPopulation(x, y);
+        }
+
         private int countAliveNeighbours(int x,int y){
              int total = 0;
              for(int i = 0; i < 9; i++){
@@ -31,21 +54,19 @@ public class Rules {
              }
                 return total;
         }
-
-
         private void newBorn(int x,int y){
                if(countAliveNeighbours(x , y) == 3 && gameOfLife.getGridStateAt(x , y) == DEAD){
-                        gameOfLife.setGridStateAt(x , y , ALIVE);
+                        nextGeneration[x + y * gameOfLife.getGridWidth()] = ALIVE;
                }
         }
         private void dieByIsolation(int x,int y){
-                if(countAliveNeighbours(x , y) < 3 && gameOfLife.getGridStateAt(x , y) == ALIVE){
-                        gameOfLife.setGridStateAt(x , y , DEAD);
+                if(countAliveNeighbours(x , y) < 2 && gameOfLife.getGridStateAt(x , y) == ALIVE){
+                        nextGeneration[x + y * gameOfLife.getGridWidth()] = DEAD;
                 }
         }
         private void dieByOverPopulation(int x,int y){
                 if(countAliveNeighbours(x , y) > 3 && gameOfLife.getGridStateAt(x , y) == ALIVE){
-                        gameOfLife.setGridStateAt(x , y , DEAD);
+                        nextGeneration[x + y * gameOfLife.getGridWidth()] = DEAD;
                 }
         }
 }
