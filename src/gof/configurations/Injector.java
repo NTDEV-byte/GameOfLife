@@ -14,10 +14,22 @@ public abstract class Injector implements IConfiguration {
         this.height = height;
     }
 
-    protected Injector(){}
+    protected Injector(){
+        this.friendlyReminderMessage();
+    }
 
     protected abstract void inject(int xStart,int yStart,GameOfLife instance);
-    protected abstract boolean isConfigurationValid(int xStart, int yStart, GameOfLife instance);
+    protected boolean isConfigurationValid(int xStart,int yStart,GameOfLife instance) {
+        return  xStart >= 0 && this.width < instance.getGridWidth()  &&
+                yStart >= 0 && this.height < instance.getGridHeight() &&
+                xStart + this.width < instance.getGridWidth() &&
+                yStart + this.height < instance.getGridHeight();
+    }
+
+    private void friendlyReminderMessage(){
+        System.out.println("If You See nothing after instantiating an injector ");
+        System.out.println("Friendly reminder call the setUp method after construction : )");
+    }
 
     protected void errorMessage(GameOfLife context){
         System.err.println("Configuration not valid check {xStart,yStart,width,height}");

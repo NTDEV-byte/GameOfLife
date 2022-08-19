@@ -1,5 +1,9 @@
 package gof;
 
+import gof.configurations.CustomInjector;
+import gof.configurations.IConfiguration;
+import gof.configurations.shapes.AutoInjector;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -14,9 +18,9 @@ public class GameOfLife extends JPanel {
         // grid related
 
         private int width = 80;
-        private int height = width * 9 / 16;
+        private int height = width * 9 / 16; // 45
         private int blockSize = 8;
-        private int grid[] = new int[width * height];
+        private int grid[];
 
         // screen related
         private int screenWidth = width * blockSize;
@@ -33,6 +37,7 @@ public class GameOfLife extends JPanel {
         private Rules rules;
         private boolean paused = true;
         private double minWait = 200,elapsedTime;
+        private IConfiguration configuration;
 
         public static void main(String args[]){
                 JFrame window = new JFrame("GameOfLife");
@@ -61,11 +66,11 @@ public class GameOfLife extends JPanel {
                 this.addKeyListener(instance);
                 this.addMouseListener(instance);
                 this.addMouseMotionListener(instance);
-                this.rules = new Rules(this);
                 this.setUpGameLoop();
-                setGridStateAt(5,5,Rules.ALIVE);
-                setGridStateAt(6,5,Rules.ALIVE);
-                setGridStateAt(7,5,Rules.ALIVE);
+                this.grid = new int[width * height];
+                this.rules = new Rules(this);
+                this.configuration = new AutoInjector("./abstract.png");
+                this.configuration.setUp(5,5,this);
         }
 
         // logic

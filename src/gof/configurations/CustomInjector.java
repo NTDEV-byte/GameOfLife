@@ -5,7 +5,6 @@ import gof.Rules;
 
 public class CustomInjector extends Injector
 {
-
         public CustomInjector(int width,int height,int data[]){
                 super(data,width,height);
         }
@@ -27,14 +26,6 @@ public class CustomInjector extends Injector
                                 instance.setGridStateAt(x ,y , Rules.ALIVE);
                       }
               }
-        }
-
-        @Override
-        protected boolean isConfigurationValid(int xStart,int yStart,GameOfLife instance) {
-                return   xStart >= 0 && this.width < instance.getGridWidth()  &&
-                         yStart >= 0 && this.height < instance.getGridHeight() &&
-                         xStart + this.width < instance.getGridWidth() &&
-                         yStart + this.height < instance.getGridHeight();
         }
 
 }
