@@ -2,14 +2,20 @@ package gof;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class GameOfLife extends JPanel {
 
+
+
+        private InputHandler instance = InputHandler.getInstance();
+
         // grid related
+
         private int width = 80;
         private int height = width * 9 / 16;
         private int blockSize = 8;
-        private int grid[] = new int[width * height];;
+        private int grid[] = new int[width * height];
 
         // screen related
         private int screenWidth = width * blockSize;
@@ -51,7 +57,9 @@ public class GameOfLife extends JPanel {
         }
         private void init(){
                 this.setPreferredSize(new Dimension(screenWidth , screenHeight));
-
+                this.addKeyListener(instance);
+                this.addMouseListener(instance);
+                this.addMouseMotionListener(instance);
                 this.rules = new Rules(this);
                 this.setUpGameLoop();
                 setGridStateAt(5,5,Rules.ALIVE);
@@ -80,8 +88,10 @@ public class GameOfLife extends JPanel {
         }
 
         private void update(){
-                rules.apply();
+                this.rules.apply();
+                this.requestFocus();
         }
+
         public int getGridStateAt(int x,int y){
                 if(withInBounds(x,y)){
                       return grid[x + y * width];
@@ -95,6 +105,14 @@ public class GameOfLife extends JPanel {
         }
         private boolean withInBounds(int x,int y){
                 return x >= 0 && x < width && y >= 0 && y < height;
+        }
+
+        private int getMouseXLoc(){
+                return instance.getMouseX() / blockSize;
+        }
+
+        private int getMouseYLoc(){
+                return instance.getMouseY() / blockSize;
         }
 
         // drawing

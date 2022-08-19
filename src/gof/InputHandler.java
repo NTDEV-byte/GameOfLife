@@ -11,6 +11,11 @@ public class InputHandler implements KeyListener, MouseListener, MouseMotionList
 
 
     private InputHandler(){}
+
+
+    public boolean isKeyDown(int keyCode){
+        return keys[keyCode];
+    }
     @Override
     public void keyTyped(KeyEvent e) {
     }
@@ -60,6 +65,18 @@ public class InputHandler implements KeyListener, MouseListener, MouseMotionList
     public void mouseMoved(MouseEvent e) {
             mouseX = e.getX();
             mouseY = e.getY();
+    }
+
+    public int getMouseX() {
+        return mouseX;
+    }
+
+    public int getMouseY() {
+        return mouseY;
+    }
+
+    public int getMouseB() {
+        return mouseB;
     }
 
     public static InputHandler getInstance(){
