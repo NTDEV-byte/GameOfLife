@@ -2,7 +2,6 @@ package gof;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Scanner;
 
 public class GameOfLife extends JPanel {
 
@@ -59,6 +58,9 @@ public class GameOfLife extends JPanel {
                 setGridStateAt(6,5,Rules.ALIVE);
                 setGridStateAt(7,5,Rules.ALIVE);
         }
+
+
+        // logic
         private void setUpGameLoop(){
                 thread = new Thread(() -> {
                         while(running){
@@ -77,11 +79,9 @@ public class GameOfLife extends JPanel {
                 }
         }
 
-        // logic
         private void update(){
                 rules.apply();
         }
-
         public int getGridStateAt(int x,int y){
                 if(withInBounds(x,y)){
                       return grid[x + y * width];
@@ -142,5 +142,8 @@ public class GameOfLife extends JPanel {
         public int getGridHeight(){
                 return height;
         }
+
+
+
 }
 

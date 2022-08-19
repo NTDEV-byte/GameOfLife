@@ -44,7 +44,7 @@ public class Rules {
 
         private int countAliveNeighbours(int x,int y){
              int total = 0;
-             for(int i = 0; i < 9; i++){
+             for(int i = 0; i < 9; i++){ // check 3 x 3 grid
                      if(i == 4) continue;
                      int xi = (i % 3) - 1;
                      int yi = (i / 3) - 1;
